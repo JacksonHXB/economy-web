@@ -26,7 +26,7 @@ module.exports = {
             //处理ES高级语法
             {test: /\.js$/, use:'babel-loader',exclude:/node_modules/},  //不需要转换现有的node_modules包下面的文件
             //处理*.vue文件
-            { test:/\.vue$/, use: 'vue-loader'},
+            { test:/\.vue$/, use: ['vue-loader']},
         ]
     },
     performance: {  //去除文件大小限制WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB)

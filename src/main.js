@@ -11,6 +11,11 @@ import router from './router'
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
 
+//导入iView
+import iView from 'iview'
+import 'iview/dist/styles/iview.css'
+Vue.use(iView)
+
 
 import app from './App.vue'         //导入App根组件
 
