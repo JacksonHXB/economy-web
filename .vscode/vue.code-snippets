@@ -1,0 +1,58 @@
+{
+    "vue代码": {
+        "prefix": "vue-html",
+        "body": [
+            "<!DOCTYPE html>",
+            "<html>",
+            "<head>",
+            "\t<meta charset=\"UTF-8\">",
+            "\t<title>测试</title>",
+            "\t<script src=\"https://cdn.staticfile.org/vue/2.4.2/vue.min.js\"></script>",
+            "</head>",
+            "<body>",
+            "\t<div class=\"container\">",
+            "",
+            "\t</div>",
+            "",
+            "\t<script>",
+            "\t\tvar vue = new Vue({",
+            "\t\t\tel : '.container',",
+            "\t\t\tdata : {},",
+            "\t\t\tmethods : {}",
+            "\t\t});",
+            "\t</script>",
+            "</body>",
+            "</html>"
+        ]
+    },
+    "vue组件":{
+        "prefix": "vue-component",
+        "body": [
+            "<template>",
+            "\t<div>",
+            "\t\t<h1>这是一个组件</h1>",
+            "\t</div>",
+            "</template>",
+            "",
+            "",
+            "<script>",
+            "export default {",
+            "",
+            "}",
+            "</script>",
+            "",
+            "",
+            "<style lang=\"css\" scoped>",
+            "",
+            "</style>",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+        ]
+    }
+}

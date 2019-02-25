@@ -1,165 +1,25 @@
 <template>
-	<div class="layout">
-		<Layout>
-			<Header>Header</Header>
-			<Layout>
-				<Sider hide-trigger>Sider</Sider>
-				<Content>Content</Content>
-			</Layout>
-			<Footer>Footer</Footer>
-		</Layout>
+    <div class="layout" :style="{height:screenHeight + 'px'}">
+        <router-view></router-view>
 	</div>
 </template>
 
+
+<script>
+
+
+export default {
+    data() {
+        return {
+            screenHeight: document.documentElement.clientHeight //屏幕高度
+        }
+    },
+}
+</script>
+
+
 <style lang="css" scoped>
-.layout{
-	width:100%;
-	height:auto;
-}
-.ivu-layout-header{
-	width:100%;
-	height:50px;
-	background:red;
-}
-.ivu-layout-sider-children{
-	width:30px;
-	height:500px;
-	background:green;
-}
-.ivu-layout-content{
-	width:90%;
-	height:500px;
-	background: blue;
-}
-.ivu-layout-footer{
-	width:100%;
-	height:20px;
-	background:lightcoral;
+.layout {
+    width: 100%;
 }
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

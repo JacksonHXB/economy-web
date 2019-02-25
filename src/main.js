@@ -17,6 +17,8 @@ import 'iview/dist/styles/iview.css'
 Vue.use(iView)
 
 
+
+
 import app from './App.vue'         //导入App根组件
 
 //配置全局的域名
