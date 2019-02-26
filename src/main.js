@@ -23,7 +23,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import app from './App.vue'         //导入App根组件
 
 //配置全局的域名
-Vue.http.options.root = 'http://www.baidu.com'
+Vue.http.options.root = 'http://localhost:8000/'
 
 
 var vm = new Vue({

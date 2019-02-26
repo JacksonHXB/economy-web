@@ -15,7 +15,6 @@
                 </Row>
             </Col>
         </Row>
-        <br>
     </div>
 </template>
 
