@@ -16,7 +16,8 @@ import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 Vue.use(iView)
 
-
+//引入Bootstrap样式
+import 'bootstrap/dist/css/bootstrap.css'
 
 
 import app from './App.vue'         //导入App根组件
