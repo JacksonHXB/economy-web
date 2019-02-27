@@ -9,7 +9,7 @@ var router = new VueRouter({
         { path: '/', redirect: '/index' },
         { path: '/index', component: frontdeskCom },
         { path: '/backstage', component:  backstageCom, children: [
-            { path: 'knowledge', component: KnowledgeList }
+            { path: 'knowledge', component: KnowledgeList },
         ]}
     ],
     linkActiveClass: '' //默认覆盖路由高亮的类router-link-active
