@@ -6,7 +6,7 @@ import KnowledgeList from './components/backstage/knowledge/KnowledgeList.vue'
 
 var router = new VueRouter({
     routes: [
-        { path: '/', redirect: '/index' },
+        { path: '/', redirect: '/addtab' },
         { path: '/index', component: frontdeskCom },
         { path: '/backstage', component:  backstageCom, children: [
             { path: 'knowledge', component: KnowledgeList },
@@ -16,3 +16,41 @@ var router = new VueRouter({
 })
 
 export default router
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

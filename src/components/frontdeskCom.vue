@@ -21,7 +21,7 @@
 
 
 <script>
-import HeaderCom from './index/HeaderCom.vue'
+import HeaderCom from './frontdesk/index/HeaderCom.vue'
 
 export default {
     components:{

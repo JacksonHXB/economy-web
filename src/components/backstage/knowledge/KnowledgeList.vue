@@ -1,37 +1,59 @@
 <template>
     <div>
+        <Row>
         <Col span="8">
-        <Input search enter-button placeholder="模糊查询" @on-search="search" v-model="keyword" />
-        <Button size="small" type="dashed" @click="modal1 = true">增加</Button>
+            <Input search enter-button placeholder="模糊查询" @on-search="search" v-model="keyword" />
+            <button type="button" class="btn btn-primary" @click="modal1 = true">增加</button>
         </Col>
+        </Row>
+        <Row>
         <Col span="24">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>标题</th>
-                    <th>内容</th>
-                    <th>关键字</th>
-                    <th>时间</th>
-                    <th>网址</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="knowledge in knowledgeList" :key="knowledge.id">
-                    <td>{{knowledge.title}}</td>
-                    <td>{{knowledge.content}}</td>
-                    <td>{{knowledge.keyword}}</td>
-                    <td>{{knowledge.time}}</td>
-                    <td>{{knowledge.websites}}</td>
-                    <td>
-                        <Button size="small" type="dashed">修改</Button>
-                        <Button size="small" type="dashed">删除</Button>
-                    </td>
-                </tr>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>标题</th>
+                        <th>内容</th>
+                        <th>关键字</th>
+                        <th>时间</th>
+                        <th>网址</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="knowledge in knowledgeList" :key="knowledge.id">
+                        <td>{{knowledge.title}}</td>
+                        <td>{{knowledge.content}}</td>
+                        <td>{{knowledge.keyword}}</td>
+                        <td>{{knowledge.time}}</td>
+                        <td>{{knowledge.websites}}</td>
+                        <td>
+                            <Button size="small" type="primary" @click="modal1 = true">修改</Button>
+                            <Button size="small" type="warning" @click="modal2 = true">删除</Button>
+                        </td>
+                    </tr>
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
         </Col>
+        </Row>
+        <Row type="flex" justify="end">
+            <Col>
+                <Page :total="100" show-elevator />
+            </Col>
+        </Row>
+        <Modal v-model="modal2" width="360">
+            <p slot="header" style="color:#f60;text-align:center">
+                <Icon type="ios-information-circle"></Icon>
+                <span>删除提示语</span>
+            </p>
+            <div style="text-align:center">
+                <p>这条信息将会从知识库中删除</p>
+                <p>确认删除它吗？</p>
+            </div>
+            <div slot="footer">
+                <Button type="error" size="large" long :loading="modal_loading" @click="del">删除</Button>
+            </div>
+        </Modal>
         <Modal v-model="modal1" title="知识增加/修改" @on-ok="ok" loading="loading" @on-cancel="cancel" draggable="true">
             <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
                 <FormItem label="标题" prop="title">
@@ -64,30 +86,6 @@
                         <Option v-for="item in websites" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </FormItem>
-                
-                <!-- <FormItem label="创建时间">
-                    <Row>
-                        <Col span="11">
-                        <FormItem prop="date">
-                            <DatePicker type="date" placeholder="Select date" v-model="formValidate.date"></DatePicker>
-                        </FormItem>
-                        </Col>
-                        <Col span="2" style="text-align: center">-</Col>
-                        <Col span="11">
-                        <FormItem prop="time">
-                            <TimePicker type="time" placeholder="Select time" v-model="formValidate.time"></TimePicker>
-                        </FormItem>
-                        </Col>
-                    </Row>
-                </FormItem>
-                <FormItem label="Desc" prop="desc">
-                    <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                        placeholder="Enter something..."></Input>
-                </FormItem>
-                <FormItem>
-                    <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button>
-                    <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>
-                </FormItem> -->
             </Form>
         </Modal>
     </div>
@@ -111,6 +109,8 @@
                     { id: 5, title: "黄金", content: "这是黄金内容", keyword: "黄金", time: "2019-10-12 14:22", websites: "无" },
                     { id: 6, title: "黄金", content: "这是黄金内容", keyword: "黄金", time: "2019-10-12 14:22", websites: "无" },
                 ],
+                modal2: false,
+                modal_loading: false,
                 modal1: false,
                 formValidate: {
                     title: '',
@@ -176,8 +176,16 @@
             },
             handleReset(name) {
                 this.$refs[name].resetFields();
+            },
+            /*点击删除按钮*/
+            del () {
+                this.modal_loading = true;
+                setTimeout(() => {
+                    this.modal_loading = false;
+                    this.modal2 = false;
+                    this.$Message.success('Successfully delete');
+                }, 2000);
             }
-
         },
     }
 </script>

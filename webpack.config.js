@@ -34,7 +34,7 @@ module.exports = {
     },
     resolve: {  //修改vue被导入时候的路径
         alias: {
-            // "vue$": "vue/dist/vue.js" //项目以runtime-only的形式运行
+            //"vue$": "vue/dist/vue.js",    项目以runtime-only的形式运行
         }
     }
 }

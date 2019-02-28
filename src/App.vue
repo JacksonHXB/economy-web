@@ -7,13 +7,12 @@
 
 <script>
 
-
 export default {
     data() {
         return {
             screenHeight: document.documentElement.clientHeight //屏幕高度
         }
-    },
+    }
 }
 </script>
 
