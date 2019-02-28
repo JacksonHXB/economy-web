@@ -11,6 +11,9 @@ import router from './router'
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
 
+//导入axios
+import axios from 'axios'
+
 //导入iView
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
@@ -25,6 +28,7 @@ import app from './App.vue'         //导入App根组件
 //配置全局的域名
 Vue.http.options.root = 'http://localhost:8000/'
 
+Vue.prototype.$axios = axios
 
 var vm = new Vue({
     el: '#app',

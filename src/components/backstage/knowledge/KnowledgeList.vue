@@ -96,7 +96,7 @@
 
     export default {
         created() {
-            // this.getKnowList()
+            this.getKnowList()
         },
         data() {
             return {
@@ -146,13 +146,25 @@
         methods: {
             //获取知识库列表
             getKnowList() {
-                this.$http.get('knowledge/search/0').then(res => {
-                    this.knowledgeList = res.body.data
-                    console.log(res.body.data)
+                // this.$http.get('knowledge/search/0', {parmas:{size:5,sort:"id",keyword:'字'}}).then(res => {
+                    
+                //     this.knowledgeList = res.body.data
+                //     console.log(res.body.data)
+                // })
+                this.$axios.get('http://localhost:8000/knowledge/serarch/0', {
+                    params:{
+                        size:5,sort:"id",keyword:"字"
+                    }
+                }).then(res => {
+                    console.log(res)
                 })
             },
             //搜索知识
             search() {
+                this.$http.get('knowledge/search/0').then(res => {
+                    this.knowledgeList = res.body.data
+                    console.log(res.body.data)
+                })
                 alert("测试")
             },
             //增加知识
