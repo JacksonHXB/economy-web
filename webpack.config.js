@@ -1,6 +1,7 @@
 var path = require('path')
 var htmlWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+var proxy = require('http-proxy-middleware')
 
 module.exports = {
     mode: "production",
@@ -35,6 +36,15 @@ module.exports = {
     resolve: {  //修改vue被导入时候的路径
         alias: {
             //"vue$": "vue/dist/vue.js",    项目以runtime-only的形式运行
+        }
+    },
+    devServer: {
+        proxy: {
+            '/api': {                                       //表示当前项目请求的key
+                target: 'http://127.0.0.1:8000',            //需要代理的服务器路径
+                pathRewrite: {'^/api': '/'},                //重写路径
+                changeOrigin: true                          //设置跨域      
+            }
         }
     }
 }

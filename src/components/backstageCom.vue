@@ -65,9 +65,10 @@
                 </Breadcrumb>
                 
                 <Tabs type="card" closable @on-tab-remove="handleTabRemove">
-                    <TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab">
                         <router-view></router-view>
-                    </TabPane>
+                    <!-- <TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab">
+                        <router-view></router-view>
+                    </TabPane> -->
                 </Tabs>
             </Content>
         </Layout>
