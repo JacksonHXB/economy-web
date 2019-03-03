@@ -20,6 +20,15 @@ import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 Vue.use(iView)
 
+//导入vue-print-nb
+import Print from 'vue-print-nb'
+Vue.use(Print)
+
+//导入vue-easy-print
+import vueEasyPrint from 'vue-easy-print'
+Vue.use(vueEasyPrint)
+
+
 //引入Bootstrap样式
 import 'bootstrap/dist/css/bootstrap.css'
 
