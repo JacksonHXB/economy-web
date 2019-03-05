@@ -1,41 +1,40 @@
 <template>
-    <div>
-            <Button @click="open(true)">Open notice(only title)</Button>
+    <div class="body">
         <Row>
-        <Col span="8">
-            <Input search enter-button placeholder="模糊查询" @on-search="search" v-model="keyword" />
-            <button type="button" class="btn btn-primary" @click="modal1 = true">增加</button>
-        </Col>
+            <Col span="10">
+                <Input search enter-button placeholder="模糊查询" @on-search="search" v-model="keyword" />
+                <button type="button" class="btn btn-primary" @click="modal1 = true">增加</button>
+            </Col>
         </Row>
-        <Row>
-        <Col span="24">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>标题</th>
-                        <th>内容</th>
-                        <th>关键字</th>
-                        <th>时间</th>
-                        <th>网址</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="knowledge in knowledgeList" :key="knowledge.id">
-                        <td>{{knowledge.title}}</td>
-                        <td>{{knowledge.content}}</td>
-                        <td>{{knowledge.keyword}}</td>
-                        <td>{{knowledge.time}}</td>
-                        <td>{{knowledge.websites}}</td>
-                        <td>
-                            <Button size="small" type="primary" @click="updateItem(knowledge)">修改</Button>
-                            <Button size="small" type="warning" @click="delItem(knowledge.id)">删除</Button>
-                        </td>
-                    </tr>
+        <Row type="flex" align="middle">
+            <Col span="23">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>标题</th>
+                            <th>内容</th>
+                            <th>关键字</th>
+                            <th>时间</th>
+                            <th>网址</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="knowledge in knowledgeList" :key="knowledge.id">
+                            <td>{{knowledge.title}}</td>
+                            <td>{{knowledge.content}}</td>
+                            <td>{{knowledge.keyword}}</td>
+                            <td>{{knowledge.time}}</td>
+                            <td>{{knowledge.websites}}</td>
+                            <td>
+                                <Button size="small" type="primary" @click="updateItem(knowledge)">修改</Button>
+                                <Button size="small" type="warning" @click="delItem(knowledge.id)">删除</Button>
+                            </td>
+                        </tr>
 
-                </tbody>
-            </table>
-        </Col>
+                    </tbody>
+                </table>
+            </Col>
         </Row>
         <Row type="flex" justify="end">
             <Col>
@@ -232,5 +231,7 @@
 
 
 <style lang="css" scoped>
-
+.body{
+    width:100%;
+}
 </style>

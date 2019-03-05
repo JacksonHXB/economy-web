@@ -6,10 +6,10 @@
         <Header>
             <router-link to="/index">返回前台</router-link>
         </Header>
-        <Layout>
+        <Layout style="height:800px">
             <!-- 侧边栏 -->
-            <Sider hide-trigger style="width:160px;overflow: hidden;">
-                <Menu :theme="theme2">
+            <Sider collapsible collapsed-width="78" v-model="isCollapsed" style="overflow: hidden;" width="166px">
+                <Menu active-name="1-2" mode="vertical" theme="dark" width="166px" :class="menuItemClasses">
                     <Submenu name="1">
                         <template slot="title">
                             <Icon type="ios-paper" />
@@ -47,7 +47,6 @@
                 </Menu>
             </Sider>
             <Content>
-                
                 <!-- 快捷路由 -->
                 <Breadcrumb>
                     <BreadcrumbItem to="/">
@@ -65,15 +64,12 @@
                 </Breadcrumb>
                 
                 <Tabs type="card" closable @on-tab-remove="handleTabRemove">
+                    <TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab">
                         <router-view></router-view>
-                    <!-- <TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab">
-                        <router-view></router-view>
-                    </TabPane> -->
+                    </TabPane>
                 </Tabs>
             </Content>
         </Layout>
-        <!-- 底栏 -->
-        <Footer>Footer</Footer>
     </Layout>
 </div>        
 </template>
@@ -83,9 +79,18 @@
 import HeaderCom from './backstage/HeaderCom.vue'
 
 export default {
+    computed:{
+        menuItemClasses(){
+            return [
+                'menu-item',
+                this.isCollapsed ? 'collapsed-menu': ''
+            ]
+        }
+    },
     data(){
         return {
-            tabs: 3
+            tabs: 3,
+            isCollapsed: false
         }
     },
     methods:{
@@ -103,13 +108,10 @@ export default {
 </script>
 
 
-<style lang="css" scoped>
-.ivu-layout-has-sider{
-    width:100%;
-    height:700px ! important;
-}
-.ivu-menu-vertical .ivu-menu-item, .ivu-menu-vertical .ivu-menu-submenu-title{
-    padding: 14px 14px ! important;
+<style>
+.ivu-menu-submenu-title{
+    padding:5px ! important;
+    margin:5px ! important;
 }
 </style>
 

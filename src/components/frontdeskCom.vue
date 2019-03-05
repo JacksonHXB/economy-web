@@ -5,7 +5,7 @@
                 <headerCom></headerCom>
             </Header>
 			<Layout>
-				<Sider hide-trigger>
+				<Sider width="80">
                     <h1>侧边栏</h1>
                 </Sider>
 				<Content>

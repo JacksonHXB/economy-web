@@ -10,13 +10,6 @@ module.exports = {
         path: path.join(__dirname, './dist'),
         filename: 'bundle.js'
     },
-    plugins:[
-        new htmlWebpackPlugin({
-            template: path.join(__dirname, './src/index.html'),
-            filename: 'index.html'
-        }),
-        new VueLoaderPlugin()
-    ],
     module:{
         rules: [
             {test:/\.css$/, use:['style-loader', 'css-loader']},
@@ -46,7 +39,14 @@ module.exports = {
                 changeOrigin: true                          //设置跨域      
             }
         }
-    }
+    },
+    plugins:[
+        new htmlWebpackPlugin({
+            template: path.join(__dirname, './src/index.html'),
+            filename: 'index.html'
+        }),
+        new VueLoaderPlugin(),
+    ],
 }
 
 

@@ -15,6 +15,10 @@ Vue.use(VueResource)
 import axios from 'axios'
 Vue.prototype.$axios = axios
 
+//导入Vuex
+import Vuex from 'vuex'
+Vue.use(Vuex)
+
 //导入iView
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
