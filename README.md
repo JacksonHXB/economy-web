@@ -1,7 +1,21 @@
-# 这是一个NB的项目
+# test3
 
-## 牛不牛逼，用心去感受，每一行代码中的诗情雅意
+> A Vue.js project
 
-### 我们是有灵魂的程序员，所以，我们的代码富有诗意
+## Build Setup
 
-#### 丫的，实在编不下去了
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+```
+
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

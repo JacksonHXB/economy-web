@@ -3,7 +3,7 @@
         <Row>
             <Col span="8">
                 <div class="imgWrapper">
-                    <img src="../../../static/frontdesk/logo.png" />
+                    <img src="../../../../static/frontdesk/logo.png" />
                 </div>
             </Col>
             <Col span="16">

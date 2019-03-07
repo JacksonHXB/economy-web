@@ -50,7 +50,7 @@
 
 <script>
 
-import { getLodop } from '../lib/LodopFuncs.js'
+import { getLodop } from '../../lib/LodopFuncs.js'
 
 export default {
     name: "demo",
