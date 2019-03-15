@@ -1,6 +1,5 @@
 <template>
 <div>
-    <Button @click="handleTabsAdd" size="small" slot="extra">增加标签页</Button>
     <Layout>
         <!-- 顶部栏 -->
         <Header>
@@ -10,7 +9,7 @@
             <!-- 侧边栏 -->
             <!--- 这是-->
             <Sider collapsible collapsed-width="78" v-model="isCollapsed" style="overflow: hidden;" width="166px">
-                <Menu active-name="1-2" mode="vertical" theme="dark" width="166px" :class="menuItemClasses">
+                <Menu active-name="1-2" mode="vertical" theme="dark" width="166px" :class="menuItemClasses" @on-select="clickMenuItem">
                     <Submenu name="1">
                         <template slot="title">
                             <Icon type="ios-paper" />
@@ -25,9 +24,7 @@
                             <Icon type="ios-people" />
                             知识库管理
                         </template>
-                        <router-link to="/backstage/knowledge">
-                            <MenuItem name="2-1">知识库CURD</MenuItem>
-                        </router-link>
+                        <MenuItem name="2-1">知识库CURD</MenuItem>
                         <MenuItem name="2-2">活跃用户</MenuItem>
                     </Submenu>
                     <Submenu name="3">
@@ -65,9 +62,11 @@
                 </Breadcrumb>
                 
                 <Tabs type="card" closable @on-tab-remove="handleTabRemove">
-                    <TabPane v-for="tab in tabs" :key="tab" :label="'标签' + tab">
-                        <router-view></router-view>
-                    </TabPane>
+                    <template v-for="item in tabs">
+                        <TabPane :label="item.name">
+                            <component :is="item.value"></component>
+                        </TabPane>
+                    </template>
                 </Tabs>
             </Content>
         </Layout>
@@ -78,8 +77,20 @@
 
 <script>
 import HeaderCom from './backstage/HeaderCom.vue'
+import com1 from './backstage/com1.vue'
+import com2 from './backstage/com2.vue'
+import com3 from './backstage/com3.vue'
+import knowledge from './backstage/knowledge/Knowledge.vue'
+
 
 export default {
+    components: {
+        "HeaderCom":HeaderCom,
+        "com1": com1,
+        "com2": com2,
+        "com3": com3,
+        "knowledge": knowledge
+    },
     computed:{
         menuItemClasses(){
             return [
@@ -90,21 +101,26 @@ export default {
     },
     data(){
         return {
-            tabs: 3,
-            isCollapsed: false
+            isCollapsed: false,
+            tabs: []
         }
     },
     methods:{
         handleTabRemove (name) {
             this['tab' + name] = false;
         },
+        /*增加标签*/
         handleTabsAdd () {
             this.tabs ++;
+        },
+        /*点击菜单选项*/
+        clickMenuItem(index){
+            if(index == "2-1"){  //新增知识库编辑页面
+                this.tabs.splice(0, 0, {name:"知识库", value:"knowledge"})
+            }
         }
     },
-    comments: {
-        HeaderCom 
-    }
+    
 }
 </script>
 

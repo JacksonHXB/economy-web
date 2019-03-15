@@ -1,128 +1,101 @@
 <template>
-    <Button type="primary" @click="modal1 = true">Display dialog box</Button>
-    <Modal
-        v-model="modal1"
-        title="Common Modal dialog box title"
-        @on-ok="ok"
-        loading="loading"
-        @on-cancel="cancel">
-        <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-            <FormItem label="Name" prop="name">
-                <Input v-model="formValidate.name" placeholder="Enter your name"></Input>
+    <Modal v-model="isShow" title="知识增加/修改" @on-ok="submit" loading="loading" @on-cancel="cancel" draggable="true">
+        <Form ref="form" :model="form" :rules="ruleValidate" :label-width="80">
+            <FormItem label="ID" prop="id" hidden>
+                <Input v-model="form.id"></Input>
             </FormItem>
-            <FormItem label="E-mail" prop="mail">
-                <Input v-model="formValidate.mail" placeholder="Enter your e-mail"></Input>
+            <FormItem label="标题" prop="title">
+                <Input v-model="form.title" placeholder="请输入标题" clearable></Input>
             </FormItem>
-            <FormItem label="City" prop="city">
-                <Select v-model="formValidate.city" placeholder="Select your city">
-                    <Option value="beijing">New York</Option>
-                    <Option value="shanghai">London</Option>
-                    <Option value="shenzhen">Sydney</Option>
-                </Select>
+            <FormItem label="关键字" prop="keywords">
+                <Input v-model="form.keywords" placeholder="输入关键字用空格隔开" clearable></Input>
             </FormItem>
-            <FormItem label="Date">
+            <FormItem label="内容" prop="content">
+                <Input v-model="form.content" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+                    placeholder="输入一些东西...."></Input>
+            </FormItem>
+            <FormItem label="创建时间">
                 <Row>
                     <Col span="11">
-                        <FormItem prop="date">
-                            <DatePicker type="date" placeholder="Select date" v-model="formValidate.date"></DatePicker>
-                        </FormItem>
+                    <FormItem prop="date">
+                        <DatePicker type="date" placeholder="Select date" v-model="form.date"></DatePicker>
+                    </FormItem>
                     </Col>
                     <Col span="2" style="text-align: center">-</Col>
                     <Col span="11">
-                        <FormItem prop="time">
-                            <TimePicker type="time" placeholder="Select time" v-model="formValidate.time"></TimePicker>
-                        </FormItem>
+                    <FormItem prop="time">
+                        <TimePicker type="time" placeholder="Select time" v-model="form.time"></TimePicker>
+                    </FormItem>
                     </Col>
                 </Row>
             </FormItem>
-            <FormItem label="Gender" prop="gender">
-                <RadioGroup v-model="formValidate.gender">
-                    <Radio label="male">Male</Radio>
-                    <Radio label="female">Female</Radio>
-                </RadioGroup>
-            </FormItem>
-            <FormItem label="Hobby" prop="interest">
-                <CheckboxGroup v-model="formValidate.interest">
-                    <Checkbox label="Eat"></Checkbox>
-                    <Checkbox label="Sleep"></Checkbox>
-                    <Checkbox label="Run"></Checkbox>
-                    <Checkbox label="Movie"></Checkbox>
-                </CheckboxGroup>
-            </FormItem>
-            <FormItem label="Desc" prop="desc">
-                <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
-            </FormItem>
-            <FormItem>
-                <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button>
-                <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>
+            <FormItem label="网址" prop="websites">
+                <Select v-model="model12" filterable multiple>
+                    <Option v-for="item in websites" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                </Select>
             </FormItem>
         </Form>
     </Modal>
 </template>
     <script>
         export default {
+            props: ["isForm", "knowledge"],
+            mounted() {
+                this.isShow = this.isForm
+            }, 
             data () {
                 return {
                     modal1: false,
-                   formValidate: {
-                        name: '',
-                        mail: '',
-                        city: '',
-                        gender: '',
-                        interest: [],
+                    form: {
+                        id: '',
+                        title: '',
+                        keywords: '',
+                        content: '',
                         date: '',
                         time: '',
-                        desc: ''
+                        websites: [],
                     },
                     ruleValidate: {
-                        name: [
-                            { required: true, message: 'The name cannot be empty', trigger: 'blur' }
+                        title: [
+                            { required: true, message: '标题不得为空', trigger: 'blur' }
                         ],
-                        mail: [
-                            { required: true, message: 'Mailbox cannot be empty', trigger: 'blur' },
-                            { type: 'email', message: 'Incorrect email format', trigger: 'blur' }
+                        keywords: [
+                            { required: true, message: '关键字不得为空', trigger: 'change' }
                         ],
-                        city: [
-                            { required: true, message: 'Please select the city', trigger: 'change' }
-                        ],
-                        gender: [
-                            { required: true, message: 'Please select gender', trigger: 'change' }
-                        ],
-                        interest: [
-                            { required: true, type: 'array', min: 1, message: 'Choose at least one hobby', trigger: 'change' },
-                            { type: 'array', max: 2, message: 'Choose two hobbies at best', trigger: 'change' }
+                        content: [
+                            { required: true, message: '请输入一些知识的内容', trigger: 'blur' },
+                            { type: 'string', min: 5, message: '内容不得少于20个字', trigger: 'blur' }
                         ],
                         date: [
-                            { required: true, type: 'date', message: 'Please select the date', trigger: 'change' }
+                            { required: true, type: 'date', message: 'Please select time', trigger: 'change' }
                         ],
                         time: [
                             { required: true, type: 'string', message: 'Please select time', trigger: 'change' }
                         ],
-                        desc: [
-                            { required: true, message: 'Please enter a personal introduction', trigger: 'blur' },
-                            { type: 'string', min: 20, message: 'Introduce no less than 20 words', trigger: 'blur' }
-                        ]
-                    }
+                        websites: [
+                            { message: '请输入网址', trigger: 'change' }
+                        ],
+                    },
+                    isShow: false,          //该组件中实际控制的显示功能
                 }
             },
             methods: {
-                ok () {
-                    this.$Message.info('Clicked ok');
+                /*点击提交*/
+                submit() {
+                    this.isShow = false               //隐藏弹窗
+                    this.$emit('submit', this.form)   //将数据传给父组件
                 },
+                /*点击取消*/
                 cancel () {
-                    this.$Message.info('Clicked cancel');
+                    this.isShow = false
                 },
-              handleSubmit (name) {
-                    this.$refs[name].validate((valid) => {
-                        if (valid) {
-                            this.$Message.success('Success!');
-                        } else {
-                            this.$Message.error('Fail!');
-                        }
-                    })
+            },
+            watch:{
+                isShow(flag){
+                    this.$emit('close', flag)
                 },
-                handleReset (name) {
-                    this.$refs[name].resetFields();
+                isForm(flag){
+                    this.isShow = flag
                 }
             }
         }

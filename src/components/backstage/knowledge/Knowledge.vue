@@ -3,7 +3,7 @@
         <Row>
             <Col span="10">
                 <Input search enter-button placeholder="模糊查询" @on-search="search" v-model="keyword" />
-                <button type="button" class="btn btn-primary" @click="modal1 = true">增加</button>
+                <button type="button" class="btn btn-primary" @click="isForm=true">增加</button>
             </Col>
         </Row>
         <Row type="flex" align="middle">
@@ -54,52 +54,20 @@
                 <Button type="error" size="large" long :loading="modal_loading" @click="del(test2)">删除</Button>
             </div>
         </Modal>
-        <Modal v-model="modal1" title="知识增加/修改" @on-ok="ok" loading="loading" @on-cancel="cancel" draggable="true">
-            <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-                <FormItem label="ID" prop="id" hidden>
-                    <Input v-model="formValidate.id"></Input>
-                </FormItem>
-                <FormItem label="标题" prop="title">
-                    <Input v-model="formValidate.title" placeholder="请输入标题" clearable></Input>
-                </FormItem>
-                <FormItem label="关键字" prop="keywords">
-                    <Input v-model="formValidate.keywords" placeholder="输入关键字用空格隔开" clearable></Input>
-                </FormItem>
-                <FormItem label="内容" prop="content">
-                    <Input v-model="formValidate.content" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                        placeholder="输入一些东西...."></Input>
-                </FormItem>
-                <FormItem label="创建时间">
-                    <Row>
-                        <Col span="11">
-                        <FormItem prop="date">
-                            <DatePicker type="date" placeholder="Select date" v-model="formValidate.date"></DatePicker>
-                        </FormItem>
-                        </Col>
-                        <Col span="2" style="text-align: center">-</Col>
-                        <Col span="11">
-                        <FormItem prop="time">
-                            <TimePicker type="time" placeholder="Select time" v-model="formValidate.time"></TimePicker>
-                        </FormItem>
-                        </Col>
-                    </Row>
-                </FormItem>
-                <FormItem label="网址" prop="websites">
-                    <Select v-model="model12" filterable multiple>
-                        <Option v-for="item in websites" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                </FormItem>
-            </Form>
-        </Modal>
+        
+        <!-- 知识库表单 -->
+        <KnowledgeForm :isForm="isForm" :knowledge="knowledge" @submit="submit" @close="closeForm"></KnowledgeForm>
     </div>
 </template>
 
 
 <script>
-
+    import KnowledgeForm from './KnowledgeForm'
     export default {
+        components: {
+            KnowledgeForm
+        },
         mounted() {
-            console.log("1")
             this.getKnowList()
         },
         data() {
@@ -115,37 +83,16 @@
                 ],
                 modal2: false,
                 modal_loading: false,
-                modal1: false,
-                formValidate: {
-                    id: '',
-                    title: '',
-                    keywords: '',
-                    content: '',
-                    date: '',
-                    time: '',
-                    websites: [],
-                },
-                ruleValidate: {
-                    title: [
-                        { required: true, message: '标题不得为空', trigger: 'blur' }
-                    ],
-                    keywords: [
-                        { required: true, message: '关键字不得为空', trigger: 'change' }
-                    ],
-                    content: [
-                        { required: true, message: '请输入一些知识的内容', trigger: 'blur' },
-                        { type: 'string', min: 5, message: '内容不得少于20个字', trigger: 'blur' }
-                    ],
-                    date: [
-                        { required: true, type: 'date', message: 'Please select time', trigger: 'change' }
-                    ],
-                    time: [
-                        { required: true, type: 'string', message: 'Please select time', trigger: 'change' }
-                    ],
-                    websites: [
-                        { message: '请输入网址', trigger: 'change' }
-                    ],
+                isForm: false,          //显示弹出表单
+                knowledge: {
+                    id: null,
+                    title: null,
+                    content: null,
+                    keywords: null,
+                    time: null,
+                    websites: null
                 }
+               
             }
         },
         methods: {
@@ -154,6 +101,13 @@
                     title: 'Notification title',
                     desc: nodesc ? '' : 'Here is the notification description. Here is the notification description. '
                 });
+            },
+            /*点击表单后的新建知识*/
+            submit(data){
+                console.log(data)
+            },
+            closeForm(flag){
+                if(!flag)this.isForm = false
             },
             //获取知识库列表
             getKnowList() {
