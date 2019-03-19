@@ -16,17 +16,34 @@
                 <h1>底部</h1>
             </Footer>
 		</Layout>
+
+        <!-- 新闻弹出面板 -->
+        <News :isNews="isNews"></News>
+
     </div>
 </template>
 
 
 <script>
-import HeaderCom from './frontdesk/index/HeaderCom.vue'
+import HeaderCom from './index/HeaderCom.vue'
+import News from './index/News.vue'
 
 export default {
     components:{
-        HeaderCom
-    }
+        HeaderCom,
+        News
+    },
+    data(){
+        return {
+            isNews: false,          //默认不显示早上新闻
+        }
+    },
+    mounted(){
+        //5s后显示新闻提示
+        setTimeout(() =>{  
+            this.isNews = true
+        }, 5000)
+    },
 }
 </script>
 

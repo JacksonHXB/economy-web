@@ -3,7 +3,9 @@
     <Layout>
         <!-- 顶部栏 -->
         <Header>
-            <router-link to="/index">返回前台</router-link>
+            <Col> <router-link to="/index">返回前台</router-link></Col>
+           
+            
         </Header>
         <Layout style="height:800px">
             <!-- 侧边栏 -->
@@ -13,11 +15,9 @@
                     <Submenu name="1">
                         <template slot="title">
                             <Icon type="ios-paper" />
-                            这是一个测试
+                            用户管理
                         </template>
-                        <MenuItem name="1-1">增加标签页</MenuItem>
-                        <MenuItem name="1-2">评论管理</MenuItem>
-                        <MenuItem name="1-3">举报管理</MenuItem>
+                        <MenuItem name="1-1">用户CRUD</MenuItem>
                     </Submenu>
                     <Submenu name="2">
                         <template slot="title">
@@ -25,21 +25,14 @@
                             知识库管理
                         </template>
                         <MenuItem name="2-1">知识库CURD</MenuItem>
-                        <MenuItem name="2-2">活跃用户</MenuItem>
                     </Submenu>
                     <Submenu name="3">
                         <template slot="title">
                             <Icon type="ios-stats" />
                             系统设置
                         </template>
-                        <MenuGroup title="使用">
-                            <MenuItem name="3-1">新增和启动</MenuItem>
-                            <MenuItem name="3-2">活跃分析</MenuItem>
-                            <MenuItem name="3-3">时段分析</MenuItem>
-                        </MenuGroup>
-                        <MenuGroup title="留存">
-                            <MenuItem name="3-4"></MenuItem>
-                            <MenuItem name="3-5">流失用户</MenuItem>
+                        <MenuGroup title="常用设置">
+                            <MenuItem name="3-1">数据字典</MenuItem>
                         </MenuGroup>
                     </Submenu>
                 </Menu>
@@ -61,7 +54,7 @@
                     </BreadcrumbItem>
                 </Breadcrumb>
                 
-                <Tabs type="card" closable @on-tab-remove="handleTabRemove">
+                <Tabs type="card" closable @on-tab-remove="clickDelTab">
                     <template v-for="item in tabs">
                         <TabPane :label="item.name">
                             <component :is="item.value"></component>
@@ -76,20 +69,15 @@
 
 
 <script>
-import HeaderCom from './backstage/HeaderCom.vue'
-import com1 from './backstage/com1.vue'
-import com2 from './backstage/com2.vue'
-import com3 from './backstage/com3.vue'
-import knowledge from './backstage/knowledge/Knowledge.vue'
-
+import knowledge from './knowledge/Knowledge.vue'
+import Dictionary from './dictionary/Dictionary.vue'
+import User from './user/User.vue'
 
 export default {
     components: {
-        "HeaderCom":HeaderCom,
-        "com1": com1,
-        "com2": com2,
-        "com3": com3,
-        "knowledge": knowledge
+        "Knowledge": knowledge,
+        "Dictionary": Dictionary,
+        "User": User
     },
     computed:{
         menuItemClasses(){
@@ -106,17 +94,38 @@ export default {
         }
     },
     methods:{
-        handleTabRemove (name) {
-            this['tab' + name] = false;
-        },
         /*增加标签*/
         handleTabsAdd () {
             this.tabs ++;
         },
+        /*点击删除标签页*/
+        clickDelTab(index){
+            this['tab' + index] = false;
+            this.tabs.splice(index, 1)
+        },
         /*点击菜单选项*/
         clickMenuItem(index){
-            if(index == "2-1"){  //新增知识库编辑页面
-                this.tabs.splice(0, 0, {name:"知识库", value:"knowledge"})
+            let clickItem = null
+            switch(index){
+                case "1-1":
+                    clickItem= { id: '1-1', name: '用户CRUD', value: 'User' }
+                    break
+                case "2-1": //新增知识库编辑页面
+                    clickItem = { id: '2-1', name: '知识库', value: 'Knowledge'}
+                    break
+                case "3-1":
+                    clickItem = { id: '3-1', name: '数据字典', value: "Dictionary"}
+                    break
+            }
+            //菜单选项不可重复添加到标签页列表中
+            if(this.tabs.length == 0){
+                this.tabs.splice(0, 0, clickItem)   
+                return
+            }else{
+                let flag = this.tabs.some((tab) => {
+                    return tab.id == index
+                })
+                if(!flag) this.tabs.splice(0, 0, clickItem)
             }
         }
     },
@@ -128,7 +137,6 @@ export default {
 <style>
 .ivu-menu-submenu-title{
     padding:5px ! important;
-    margin:5px ! important;
 }
 </style>
 

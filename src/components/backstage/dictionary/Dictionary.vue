@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>backstage-HeaderCom组件</h1>
+        <h1>Dictionary组件</h1>
     </div>
 </template>
 
