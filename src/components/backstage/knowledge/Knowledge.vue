@@ -2,7 +2,7 @@
     <div class="body">
         <Row>
             <Col span="10">
-                <Input search enter-button placeholder="模糊查询" @on-search="search" v-model="keyword" />
+                <Input search enter-button placeholder="模糊查询" @on-search="searchKnowledge" v-model="keyword" />
                 <button type="button" class="btn btn-primary" @click="isForm=true">增加</button>
             </Col>
         </Row>
@@ -27,7 +27,7 @@
                             <td>{{knowledge.time}}</td>
                             <td>{{knowledge.websites}}</td>
                             <td>
-                                <Button size="small" type="primary" @click="updateItem(knowledge)">修改</Button>
+                                <Button size="small" type="primary" @click="updateKnowledge(knowledge)">修改</Button>
                                 <Button size="small" type="warning" @click="delItem(knowledge.id)">删除</Button>
                             </td>
                         </tr>
@@ -37,9 +37,7 @@
             </Col>
         </Row>
         <Row type="flex" justify="end">
-            <Col>
-                <Page :total="100" show-elevator />
-            </Col>
+            <Page :total="sum" show-elevator @on-change="clickPage" :page-size="3"/>
         </Row>
         <Modal v-model="modal2" width="360" draggable>
             <p slot="header" style="color:#f60;text-align:center">
@@ -56,7 +54,7 @@
         </Modal>
         
         <!-- 知识库表单 -->
-        <KnowledgeForm :isForm="isForm" :knowledge="knowledge" @submit="submit" @close="closeForm"></KnowledgeForm>
+        <KnowledgeForm :isForm="isForm" :data="formData" @submit="submit" @close="closeForm"></KnowledgeForm>
     </div>
 </template>
 
@@ -64,14 +62,16 @@
 <script>
 import KnowledgeForm from './KnowledgeForm'
 
-let host = "http://localhost:8001"
+let host = "http://localhost/consumer"
 
 export default {
     components: {
         KnowledgeForm
     },
     mounted() {
-        this.getKnowList()
+        this.getKnowList(0).then(res => {
+            this.knowledgeList = res.data.data
+        })
     },
     data() {
         return {
@@ -80,50 +80,43 @@ export default {
             modal2: false,
             modal_loading: false,
             isForm: false,          //显示弹出表单
-            knowledge: {
-                id: null,
-                title: null,
-                content: null,
-                keywords: null,
-                time: null,
-                websites: null
-            }
+            formData: {},               //传递给表单的数据
+            test: "测试打印",
+            sum: '',                //数据的总数，默认每页显示10条数据
             
         }
     },
     methods: {
-        open (nodesc) {
-            this.$Notice.open({
-                title: 'Notification title',
-                desc: nodesc ? '' : 'Here is the notification description. Here is the notification description. '
-            });
-        },
         /*点击表单后的新建知识*/
         submit(data){
             console.log(data)
         },
+        /*点击页码*/
+        clickPage(page){
+            this.getKnowList(page).then(res => {
+                this.knowledgeList = res.data.data
+            })
+        },
+        /*关闭表单*/
         closeForm(flag){
             if(!flag)this.isForm = false
         },
         //获取知识库列表
-        getKnowList() {
+        getKnowList(page) {
             //使用axios获取知识列表
-            this.$axios.get(`${host}/knowledge/search/0`, {
-                headers: {
-                    'Authorization': 'Bearer ' + '121231313',
-                    "Cookie":'sessionId=' +'; recId=',
-                },
+            return this.$axios.get(`${host}/knowledge/search/${page}`, {
+                headers: { 'Content-Type': 'application/json' },
                 params: {size:3}
-            }).then(res => {
-                console.log('res:', res)
-                this.knowledgeList = res.data.data
             })
         },
         //修改知识
-        updateItem(knowledge){
-            console.log(knowledge)
-            this.formValidate = knowledge
-            this.modal1 = true      //显示修改面板框
+        updateKnowledge(knowledge){
+            this.isForm = true
+            this.formData = {
+                flag: 'update',
+                knowledge: knowledge
+            }
+            console.log(this.formData)
         },
         delItem(knowledgeId){
             this.modal2 = true          //显示删除面板
@@ -131,10 +124,10 @@ export default {
             this.test2 = knowledgeId
         },
         //搜索知识
-        search() {
+        searchKnowledge() {
             let that = this
-            let data = {params: {size: 3, keyword: this.keyword }}
-            this.$axios.get('/api/knowledge/search/0',data).then(res => {
+            let data = {params: {size: 3, keywords: this.keyword }}
+            this.$axios.get(`${host}/knowledge/search/0`,data).then(res => {
                 let result = res.data.data
                 if(result.length != 0){
                     that.knowledgeList = []
@@ -144,19 +137,20 @@ export default {
                 }
             })
         },
-        //增加知识
-        addKnowledge() {
-
-        },
         /*点击删除按钮*/
         del (id) {   
-            console.log(id)   
+            let that = this
             this.modal_loading = true;
             setTimeout(() => {
                 this.modal_loading = false;
                 this.modal2 = false;
-                this.$Message.success('删除成功！');
-            }, 2000);
+                that.$axios.get(`${host}/knowledge/del/${id}`).then(res => {
+                    this.$Message.success('删除成功！');
+                    this.getKnowList(0).then(res => {
+                        this.knowledgeList = res.data.data
+                    })
+                })  
+            }, 1000);
         }
     },
 }

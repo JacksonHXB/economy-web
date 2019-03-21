@@ -1,5 +1,5 @@
 <template>
-    <Modal v-model="isShow" title="知识增加/修改" @on-ok="submit" loading="loading" @on-cancel="cancel" draggable="true">
+    <Modal v-model="isShow" :title="title" @on-ok="submit" loading="loading" @on-cancel="cancel" draggable="true">
         <Form ref="form" :model="form" :rules="ruleValidate" :label-width="80">
             <FormItem label="ID" prop="id" hidden>
                 <Input v-model="form.id"></Input>
@@ -39,7 +39,7 @@
 </template>
     <script>
         export default {
-            props: ["isForm", "knowledge"],
+            props: ["isForm", "data"],
             mounted() {
                 this.isShow = this.isForm
             }, 
@@ -77,6 +77,7 @@
                         ],
                     },
                     isShow: false,          //该组件中实际控制的显示功能
+                    title: null,            //标题
                 }
             },
             methods: {
@@ -96,6 +97,16 @@
                 },
                 isForm(flag){
                     this.isShow = flag
+                },
+                data: {
+                    handler(newData, oldData){
+                        if(newData.flag == 'update'){
+                            this.title = '知识修改'
+                        }else if(newData.flag == 'add'){
+                            this.title = '知识增加'
+                        }
+                    },
+                    deep: true
                 }
             }
         }

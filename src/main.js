@@ -25,6 +25,13 @@ Vue.use(iView)
 //引入Bootstrap样式
 import 'bootstrap/dist/css/bootstrap.css'
 
+//引入axios配置
+//import axios from '../config/axios.js'
+//window.axios = axios()
+//Vue.prototype.$http = window.axios    //将axios作为Vue的原型属性
+
+
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
