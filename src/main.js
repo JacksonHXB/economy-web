@@ -31,11 +31,14 @@ import 'bootstrap/dist/css/bootstrap.css'
 //Vue.prototype.$http = window.axios    //将axios作为Vue的原型属性
 
 
+//导入HTTP
+import http from "./utils/http.js"
+Vue.prototype.$http = http
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
-new Vue({
+export default new Vue({
   el: '#app',
   router,
   render: c => c(app)

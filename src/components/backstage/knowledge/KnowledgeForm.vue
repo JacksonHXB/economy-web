@@ -1,5 +1,5 @@
 <template>
-    <Modal v-model="isShow" :title="title" @on-ok="submit" loading="loading" @on-cancel="cancel" draggable="true">
+    <Modal v-model="isShow" :title="title" @on-ok="submit" loading="loading" @on-cancel="cancel" :draggable="true">
         <Form ref="form" :model="form" :rules="ruleValidate" :label-width="80">
             <FormItem label="ID" prop="id" hidden>
                 <Input v-model="form.id"></Input>
@@ -14,7 +14,7 @@
                 <Input v-model="form.content" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
                     placeholder="输入一些东西...."></Input>
             </FormItem>
-            <FormItem label="创建时间">
+            <FormItem label="创建时间" v-if="!flag">
                 <Row>
                     <Col span="11">
                     <FormItem prop="date">
@@ -29,10 +29,10 @@
                     </Col>
                 </Row>
             </FormItem>
-            <FormItem label="网址" prop="websites">
-                <Select v-model="model12" filterable multiple>
-                    <Option v-for="item in websites" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                </Select>
+            <FormItem>
+                <FormItem label="网 址" prop="websites">
+                    <Input v-model="form.websites" placeholder="请输入网址" clearable></Input>
+                </FormItem>
             </FormItem>
         </Form>
     </Modal>
@@ -45,6 +45,7 @@
             }, 
             data () {
                 return {
+                    flag: true,             //true是增加知识，false是修改知识
                     modal1: false,
                     form: {
                         id: '',
@@ -53,7 +54,7 @@
                         content: '',
                         date: '',
                         time: '',
-                        websites: [],
+                        websites: '',
                     },
                     ruleValidate: {
                         title: [
@@ -64,7 +65,7 @@
                         ],
                         content: [
                             { required: true, message: '请输入一些知识的内容', trigger: 'blur' },
-                            { type: 'string', min: 5, message: '内容不得少于20个字', trigger: 'blur' }
+                            { type: 'string', min: 5, message: '内容不得少于5个字', trigger: 'blur' }
                         ],
                         date: [
                             { required: true, type: 'date', message: 'Please select time', trigger: 'change' }
@@ -100,9 +101,13 @@
                 },
                 data: {
                     handler(newData, oldData){
+                        this.form = {}
                         if(newData.flag == 'update'){
+                            this.flag = false
                             this.title = '知识修改'
+                            this.form = newData.knowledge
                         }else if(newData.flag == 'add'){
+                            this.flag = true
                             this.title = '知识增加'
                         }
                     },
