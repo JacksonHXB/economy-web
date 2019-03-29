@@ -24,6 +24,7 @@ Vue.use(iView)
 
 //引入Bootstrap样式
 import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap.js'
 
 //引入axios配置
 //import axios from '../config/axios.js'
