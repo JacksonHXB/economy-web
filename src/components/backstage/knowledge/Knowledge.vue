@@ -67,8 +67,6 @@ import KnowledgeForm from './KnowledgeForm'
 import Qs from 'qs'
 import * as Knowledge from '../../../api/knowledge.js'
 
-// let host = "http://localhost/consumer"
-
 export default {
     components: {
         KnowledgeForm

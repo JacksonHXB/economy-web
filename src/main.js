@@ -36,6 +36,8 @@ import 'bootstrap/dist/js/bootstrap.js'
 import http from "./utils/http.js"
 Vue.prototype.$http = http
 
+import "./assets/css/iconfont/iconfont.css"   //导入阿里云图标
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
